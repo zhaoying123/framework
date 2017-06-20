@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" href="bootstrap.min.css" />
+		<style>
+			@media (min-width: 768px) {
+				.form-inline .form-group {
+					margin-bottom: 15px;
+				}
+			}
+			.table>tbody>tr>td {
+				vertical-align: middle;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="app" className="container"></div>
+	</body>
+	<script src="jquery.min.js"></script>
+	<script src="bootstrap.min.js"></script>
+	<script src="https://cdn.bootcss.com/react/15.5.4/react.min.js"></script>
+	<script src="https://cdn.bootcss.com/react/15.5.4/react-dom.min.js"></script>
+	<script src="https://cdn.bootcss.com/babel-standalone/6.22.1/babel.min.js"></script>
+	<script   type="text/jsx">
+		var data = [{
+				id: 1,
+				name: '红楼梦',
+				author: '曹雪芹',
+				price: 32,
+				num: 10
+			},
+			{
+				id: 2,
+				name: '水浒传',
+				author: '施耐庵',
+				price: 30,
+				num: 10
+			},
+			{
+				id: 3,
+				name: '三国演义',
+				author: '罗贯中',
+				price: 24,
+				num: 10
+			},
+			{
+				id: 4,
+				name: '西游记',
+				author: '吴承恩',
+				price: 20,
+				num: 10
+			},
+			{
+				id: 5,
+				name: '自在独行',
+				author: '贾平凹',
+				price: 30,
+				num: 10
+			},
+			{
+				id: 6,
+				name: '目送',
+				author: '龙应台',
+				price: 24,
+				num: 10
+			},
+			{
+				id: 7,
+				name: '文化苦旅',
+				author: '余秋雨',
+				price: 20,
+				num: 10
+			},
+			{
+				id: 8,
+				name: '皮囊',
+				author: '蔡崇达',
+				price: 30,
+				num: 10
+			},
+			{
+				id: 9,
+				name: '我与地坛',
+				author: '史铁生',
+				price: 24,
+				num: 10
+			},
+			{
+				id: 10,
+				name: '看见',
+				author: '柴静',
+				price: 20,
+				num: 10
+			}
+		];
+		
+		class ListWrapper extends React.Component {
+			constructor(props) {
+				super(props);
+				this.state = {
+					isDisabled: true,
+					selectedId: 0,
+					book: {id:0,name:'',author:'',price:'',num:''},
+					booksList: data,
+					filterBooksList: data,
+					totalPrice: 0,
+					title: ''
+				}
+			}
+			componentDidMount() {
+				var total = 0
+				this.state.booksList.map(item => {
+					total += parseFloat(item.price)*parseFloat(item.num)
+				})
+				this.setState({totalPrice:total})
+			}
+			selectedId(item) {
+				this.setState({selectedId: item.id})
+			}
+			deleteBook() {
+				var selectedId = this.state.selectedId
+				var booksList = this.state.booksList.filter((item, index) => {
+					if(selectedId !== item.id) {
+						return item
+					}
+				})
+				var filterBooksList = this.state.filterBooksList.filter((item, index) => {
+					if(selectedId !== item.id) {
+						return item
+					}
+				})
+				this.setState({
+					booksList: booksList,
+					filterBooksList: filterBooksList
+				})
+				$('#deleteModal').modal('hide')
+			}
+			add() {
+				this.setState({
+					book: {id:0,name:'',author:'',price:'',num:''},
+					isDisabled: true,
+					title: '添加图书'
+				})
+			}
+			change(e) {
+				var name = this.refs.name.value;
+				var author = this.refs.author.value;
+				var price = this.refs.price.value;
+				var num = this.refs.num.value;
+				
+				if(name===''||author===''||price===''||num===''){
+					this.setState({isDisabled:true});
+				}else{
+					this.setState({isDisabled:false});
+				}
+				this.setState({
+					book: {id:this.state.book.id,name:name,author:author,price:price,num:num}
+				})
+			}
+			editeBook(book) {
+				this.setState({
+					book: book,
+					isDisabled: false,
+					title: '编辑图书'
+				})
+			}
+			addBook() {
+				var book = this.state.book
+				if(this.state.book.id === 0) {
+					book.id = this.state.booksList.length + 1
+					this.setState({
+						booksList: this.state.booksList.concat(book),
+						filterBooksList: this.state.booksList.concat(book)
+					})
+				}else{
+					var id = book.id
+					var booksList = this.state.booksList
+					var filterBooksList = this.state.filterBooksList.map((item, index) => {
+						if(item.id === id){
+							return item = book
+						}else{
+							return item
+						}
+					})
+					var booksList = this.state.booksList.map((item, index) => {
+						if(item.id === id){
+							return item = book
+						}else{
+							return item
+						}
+					})
+					this.setState({
+						booksList: booksList,
+						filterBooksList: filterBooksList
+					})
+				}
+				$('#addModal').modal('hide')
+				this.setState({
+					book: {id:0,name:'',author:'',price:'',num:''}
+				})
+				
+			}
+			search(e) {
+				var keywords = e.target.value
+				if(!keywords){
+					this.setState({
+						filterBooksList: this.state.booksList
+					})
+				}else{
+					var reg = new RegExp(keywords,'i')
+					var booksList = this.state.booksList.filter(function(item, index){
+						if(reg.test(item.name) || reg.test(item.author)){
+							return item
+						}
+					})
+					this.setState({
+						filterBooksList: booksList
+					})
+				}
+			}
+			componentDidUpdate(prevProps, prevState) {
+				console.log("1")
+				if(this.state.booksList !==prevState.booksList){
+					var total = 0
+					this.state.booksList.map(item => {
+						total += parseFloat(item.price)*parseFloat(item.num)
+					})
+					this.setState({totalPrice:total})
+				}
+			}
+			render() {
+				return(
+					<div className="container">
+						<form className="form-inline">
+							<div className="row">
+								<div className="form-group col-sm-9">
+									<label>按关键词查找：</label>
+									<input type="text" className="form-control" placeholder="书名/作者" onChange={this.search.bind(this)}/>
+								</div>
+								<div className="form-group col-sm-3 text-right">
+									<button type="button" className="btn btn-primary" data-toggle="modal" data-target="#addModal" onClick={this.add.bind(this)}>添加</button>
+								</div>
+							</div>
+							<div className="row">
+								<div className="form-group col-sm-12">
+									<label>每页显示记录：</label>
+									<select className="form-control" >
+										<option value="3">3</option>
+										<option value="5">5</option>
+										<option value="7">7</option>
+									</select><label>条</label>
+								</div>
+							</div>
+						</form>
+						<div className="row">
+							<div className="col-lg-12">
+								<table className="table table-hover text-center">
+									<thead>
+										<tr>
+											<th className="text-center">书名</th>
+											<th className="text-center">作者</th>
+											<th className="text-center">价格(¥)</th>
+											<th className="text-center">数量</th>
+											<th className="text-center">操作</th>
+										</tr>
+									</thead>
+									<tbody>
+										{this.state.filterBooksList.map((item, index) => 
+											<tr>
+												<td>{item.name}</td>
+												<td>{item.author}</td>
+												<td>{item.price}</td>
+												<td>{item.num}</td>
+												<td>
+													<button type="button" className="btn btn-danger" data-toggle="modal" data-target="#deleteModal" onClick={this.selectedId.bind(this, item)}>删除</button>
+													<button type="button" className="btn btn-info" data-toggle="modal" data-target="#addModal" onClick={this.editeBook.bind(this, item)}>编辑</button>
+												</td>
+											</tr>
+										
+										)}
+											
+									</tbody>
+								</table>
+								<div className="text-right">总价(¥)：{this.state.totalPrice}</div>
+								<div className="text-right">
+									<ul className="pagination">
+			
+									</ul>
+								</div>
+							</div>
+							<div id="addModal" className="modal fade">
+								<div className="modal-dialog">
+									<div className="modal-content">
+										<div className="modal-header">
+											<h4 className="modal-title">{this.state.title}</h4>
+										</div>
+										<div className="modal-body">
+											<div className="form-group">
+												<label>书名</label>
+												<input type="text" className="form-control" value={this.state.book.name} onChange={this.change.bind(this)} ref='name'/>
+											</div>
+											<div className="form-group">
+												<label>作者</label>
+												<input type="text" className="form-control" value={this.state.book.author} onChange={this.change.bind(this)} ref='author'/>
+											</div>
+											<div className="form-group">
+												<label>价格(¥)</label>
+												<input type="text" className="form-control" value={this.state.book.price} onChange={this.change.bind(this)} ref='price'/>
+											</div>
+											<div className="form-group">
+												<label>数量</label>
+												<input type="text" className="form-control" value={this.state.book.num} onChange={this.change.bind(this)} ref='num'/>
+											</div>
+										</div>
+										<div className="modal-footer">
+											<button type="button" className="btn btn-default" data-dismiss="modal">取消</button>
+											<button type="button" className="btn btn-primary" disabled={this.state.isDisabled} onClick={this.addBook.bind(this)}>确定</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+			
+						<div id="deleteModal" className="modal fade">
+							<div className="modal-dialog">
+								<div className="modal-content">
+									<div className="modal-header">
+										<button type="button" className="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+										<h4 className="modal-title">删除图书</h4>
+									</div>
+									<div className="modal-body">
+										<p className="text-center">确定删除该图书信息？</p>
+									</div>
+									<div className="modal-footer">
+										<button type="button" className="btn btn-default" data-dismiss="modal">取消</button>
+										<button type="button" className="btn btn-primary" onClick={this.deleteBook.bind(this)}>确定</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				)
+			}
+		}
+		
+		var app = ReactDOM.render(
+			<div>
+				<h1 className="text-center">图书列表</h1>
+				<ListWrapper/>
+			</div>,
+			document.getElementById('app')
+		)
+	</script>
+</html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+			*{margin: 0;padding: 0;}
+			.tab-selector,.tab-selector ul{
+				overflow: hidden;
+			}
+			.tab-selector{
+				margin: 40px;
+			}
+			.tab-selector label {
+			    float: left;
+			    margin-right: 10px;
+			    padding: 5px;
+			    text-align: left;
+			    font-weight: bold;
+			}
+			.tab-selector li {
+			    cursor: pointer;
+			    float: left;
+			    padding: 5px 15px;
+			    border: 1px solid #ddd;
+			    margin: 0 10px;
+			    list-style: none;
+			}
+			.tab-selector li.selected {
+			    border-color: #2175bc;
+			    background-color: #2175bc;
+			    color: #fff;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="root"></div>
+		<script src="https://cdn.bootcss.com/react/15.5.4/react.min.js"></script>
+		<script src="https://cdn.bootcss.com/react/15.5.4/react-dom.min.js"></script>
+		<script src="https://cdn.bootcss.com/babel-standalone/6.22.1/babel.min.js"></script>
+		<script type="text/jsx">
+			var colorData = [
+		        {name: 'Red', value: 'red'},
+		        {name: 'Blue', value: 'blue'},
+		        {name: 'Yellow', value: 'yellow'},
+		        {name: 'Green', value: 'green'},
+		        {name: 'White', value: 'White'}
+		    ];
+		    var sizeData = [
+		        {name: 'S', value: 's'},
+		        {name: 'M', value: 'm'},
+		        {name: 'L', value: 'l'},
+		        {name: 'XL', value: 'xl'},
+		        {name: 'XXL', value: 'xxl'}
+		    ];
+			class TabSelector extends React.Component {
+				 constructor(props) { 
+				 	super(props); 
+				 	this.state = {
+				 		selectedName: this.props.defaultname || '',
+				 		selectedValue: this.props.data.map((item, index) => {
+				 			if(item.name === this.props.defaultname) {
+				 				return item.value
+				 			}
+				 		})
+				 	}; 
+				 }
+				 clickHandel(e) {
+				 	this.setState({
+				 		selectedName: e.target.getAttribute('data-name'),
+				 		selectedValue: e.target.getAttribute('data-value')
+				 	}); 
+				 }
+			    	 render() { 
+			    		return (
+			    			<div className='tab-selector'>
+			    				<label>{this.props.label}</label>
+			    				<ul>
+			    					{
+			    						this.props.data.map((item, index) => {
+			    							let selected
+			    							item.name === this.state.selectedName ? selected = 'selected' : selected = ''
+			    							return <li key={index} className={selected} onClick={this.clickHandel.bind(this)} data-name={item.name} data-value={item.value}>{item.name}</li>
+			    						})
+			    					}
+			    				</ul>
+			    				<div>您当前选中的name是：{this.state.selectedName}</div>
+			    				<div>您当前选中的value是：{this.state.selectedValue}</div>
+			    			</div>
+			    		)
+			    	}
+		    }
+			ReactDOM.render(
+				<div>
+					<TabSelector label='颜色' data={colorData}/>
+					<TabSelector label='尺寸' data={sizeData} defaultname='S'/>
+				</div>
+				, 
+				document.getElementById('root') 
+			);
+		</script>
+	</body>
+</html>

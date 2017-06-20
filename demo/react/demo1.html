@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+		<div id="root"></div>
+	</body>
+	<script src="https://cdn.bootcss.com/react/15.5.4/react.min.js"></script>
+	<script src="https://cdn.bootcss.com/react/15.5.4/react-dom.min.js"></script>
+	<script src="https://cdn.bootcss.com/babel-standalone/6.22.1/babel.min.js"></script>
+	<script type="text/jsx">
+		class Clock extends React.Component {
+			 constructor(props) { 
+			 	super(props); 
+			 	this.state = {
+			 		date: new Date()
+			 	}; 
+			 }
+			 componentDidMount() {
+			    this.timerID = setInterval( () => {
+			    		this.setState({ date: new Date() }); 
+			    }, 1000 ); 
+			 } 
+			 // 如果该Clock组件从DOM中删除，则React会调用componentWillUnmount()生命周期挂钩，以便定时器停止。
+		     componentWillUnmount() { 
+		    		clearInterval(this.timerID); 
+		    	 } 
+		    	 render() { 
+		    		return (
+					<div>
+						<h1>Hello, world!</h1>
+						<h2>It is {this.state.date.toLocaleTimeString()}.</h2>
+					</div>
+				); 
+			 } 
+		} 
+		class Toggle extends React.Component {
+			  constructor(props) {
+			  		// constructor中必须写super(),是用来初始化this的，可以绑定事件到this上;
+			  		// 如果你在constructor中要使用this.props,就必须给super加参数：super(props)；
+					// 无论有没有constructor，在render中this.props都是可以使用的
+				    super(props);
+				    this.state = {isToggleOn: true};
+				    this.handleClick = this.handleClick.bind(this);
+			  }
+			
+			  handleClick() {
+				   	//this.setState(prevState => ({
+				     // 	isToggleOn: !prevState.isToggleOn
+				    //}));
+				    this.setState({
+				    		isToggleOn: !this.state.isToggleOn
+				    })
+			  }
+			
+			  render() {
+				    return (
+				      <button onClick={this.handleClick.bind(this)}>
+				        {this.state.isToggleOn ? 'ON' : 'OFF'}
+				      </button>
+				    );
+			  }
+		}
+			
+		ReactDOM.render(
+			<div>
+				<Clock />
+				<Toggle />
+			</div>
+			, 
+			document.getElementById('root') 
+		);
+	</script>
+
+</html>
