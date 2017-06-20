@@ -6,7 +6,8 @@
 技术架构：vue + vue-router + vue-resource  
 
 实现功能：商品的选购 购物车中商品的删改
-
+![image](https://github.com/zhaoying123/framework/blob/master/vue/screenshots/screenshot1.gif)   
+![image](https://github.com/zhaoying123/framework/blob/master/vue/screenshots/screenshot2.gif)   
 ## react  
 项目简介：(首页／城市页／详情页／登录页／个人中心)  
 
