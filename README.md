@@ -15,29 +15,9 @@
 
 技术架构：react + react-router + react-redux + koa
 
-虚拟DOM
-
-并不是真实的DOM节点，而是存在于内存之中的一种数据结构。
-
-设计思想：虚拟DOM是用来找出怎么以最小的代价来更新DOM，保证最小化的DOM操作，使得执行效率得到保证
-## vue  
-项目简介：外卖App商家模块(商品／评论／商家)  
-
-技术架构：vue + vue-router + vue-resource  
-
-实现功能：商品的选购 购物车中商品的删改  
-## react  
-项目简介：(首页／城市页／详情页／登录页／个人中心)  
-
-实现功能：收藏，购买，评论  
-
-技术架构：react + react-router + react-redux + koa
-
-设计思想：
-虚拟DOM并不是真实的DOM节点，而是存在于内存之中的一种数据结构。  
-
+## 虚拟DOM设计思想：
+虚拟DOM并不是真实的DOM节点，而是存在于内存之中的一种数据结构。 
 虚拟DOM是用来找出怎么以最小的代价来更新DOM，保证最小化的DOM操作，使得执行效率得到保证  
-
 
 步骤一：用JS对象模拟DOM树  
 步骤二：比较两棵虚拟DOM树的差异  
@@ -52,17 +32,14 @@
 
 异：
 1. DOM的渲染方式
-	vue - 文件中使用 html 标签，通过指令向模版添加功能(vue2新增render函数)
-
+	vue - 文件中使用 html 标签，通过指令向模版添加功能(vue2新增render函数)  
 	react - 文件中使用 jsx 语法，借此在 javascript 中创建DOM
 
 2. state
-	vue中的state是可变的
-
+	vue中的state是可变的  
 	this.message = this.message.split('').reverse().join('');
 
-	React中的state是不可变的，需要使用API中的setState方法：
-
+	React中的state是不可变的，需要使用API中的setState方法：  
 	this.setState({ message: this.state.message.split('').reverse().join('') });
 
 3. 修改数组某项值
