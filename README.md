@@ -42,7 +42,37 @@
 	React中的state是不可变的，需要使用API中的setState方法：  
 	this.setState({ message: this.state.message.split('').reverse().join('') });
 
-3. 修改数组某项值
+3. 子组件向父组件传参
+	vue通过this.$emit( event, […args] )，触发当前实例上的事件。附加参数都会传给监听器回调。  
+```
+子组件：
+methods: {
+  	_postContent () {
+		this.$emit('postContent', this.content);
+  	}
+}
+ 父组件：
+<hello @postContent='showContent'></hello>
+methods: {
+  	showContent (data) {
+  		this.content = data;
+  	}
+}
+```
+	react通过this.props.event([…args])
+```
+子组件：
+postContent () {
+	this.props.postContent(this.content);
+}
+ 父组件：
+<hello postContent={this.showContent.bind(this)}></hello>
+showContent (data) {
+	this.content = data;
+}
+
+```
+4. 修改数组某项值
 ```
 this.$set(this.arr,1,'11');
 Vue.set(this.arr,1,'11');
