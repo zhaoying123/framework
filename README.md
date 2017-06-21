@@ -31,7 +31,7 @@
 
 实现功能：收藏，购买，评论  
 
-技术架构：react + react-router + react-redux + mock  
+技术架构：react + react-router + react-redux + koa
 
 设计思想：
 虚拟DOM并不是真实的DOM节点，而是存在于内存之中的一种数据结构。  
@@ -53,15 +53,39 @@
 
 异：
 1. DOM的渲染方式
-vue - 文件中使用 html 标签，通过指令向模版添加功能(vue2新增render函数)
+	vue - 文件中使用 html 标签，通过指令向模版添加功能(vue2新增render函数)
 
-react - 文件中使用 jsx 语法，借此在 javascript 中创建DOM
+	react - 文件中使用 jsx 语法，借此在 javascript 中创建DOM
+
 2. state
-vue中的state是可变的
+	vue中的state是可变的
 
-this.message = this.message.split('').reverse().join('');
+	this.message = this.message.split('').reverse().join('');
 
-React中的state是不可变的，需要使用API中的setState方法：
+	React中的state是不可变的，需要使用API中的setState方法：
 
-this.setState({ message: this.state.message.split('').reverse().join('') });
+	this.setState({ message: this.state.message.split('').reverse().join('') });
 
+3. 修改数组某项值
+```
+	this.$set(this.arr,1,'11');
+	Vue.set(this.arr,1,'11');
+	this.arr.splice(1,1,'11');
+
+	this.books.forEach(function(ele, index) {
+		if(_this.book.id === ele.id) {
+			_this.$set(_this.books, _this.selectebook, _this.book);
+		}
+	})
+							
+	var booksList = this.state.booksList.map((item, index) => {
+		if(item.id === id){
+			return item = book
+		}else{
+			return item
+		}
+	})
+	this.setState({
+		booksList: booksList
+	})
+```
