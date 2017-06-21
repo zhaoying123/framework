@@ -79,6 +79,7 @@ module.exports = {
 
 	devServer: {
 		proxy: {
+			// 如果你有单独的后端开发服务器 API，并且希望在同域名下发送 API 请求 ，那么代理某些 URL 会很有用。
 			// 凡是 `/api` 开头的 http 请求，都会被代理到 localhost:3000 上，由 koa 提供 mock 数据。
 			// 将匹配 '/api' 这种格式的API的域名重定向为 'http://localhost:3000t'
 			// koa 代码在 ./mock 目录中，启动命令为 npm run mock
