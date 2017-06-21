@@ -39,10 +39,9 @@
 虚拟DOM是用来找出怎么以最小的代价来更新DOM，保证最小化的DOM操作，使得执行效率得到保证  
 
 
-步骤一：用JS对象模拟DOM树
-步骤二：比较两棵虚拟DOM树的差异
+步骤一：用JS对象模拟DOM树  
+步骤二：比较两棵虚拟DOM树的差异  
 步骤三：把差异应用到真正的DOM树上
-
 
 ## vue 和 react 的异同
 同：
@@ -68,24 +67,25 @@
 
 3. 修改数组某项值
 ```
-	this.$set(this.arr,1,'11');
-	Vue.set(this.arr,1,'11');
-	this.arr.splice(1,1,'11');
+this.$set(this.arr,1,'11');
+Vue.set(this.arr,1,'11');
+this.arr.splice(1,1,'11');
 
-	this.books.forEach(function(ele, index) {
-		if(_this.book.id === ele.id) {
-			_this.$set(_this.books, _this.selectebook, _this.book);
-		}
-	})
-							
-	var booksList = this.state.booksList.map((item, index) => {
-		if(item.id === id){
-			return item = book
-		}else{
-			return item
-		}
-	})
-	this.setState({
-		booksList: booksList
-	})
+this.books.forEach(function(ele, index) {
+	if(_this.book.id === ele.id) {
+		_this.$set(_this.books, _this.selectebook, _this.book);
+	}
+})
+```
+```					
+var booksList = this.state.booksList.map((item, index) => {
+	if(item.id === id){
+		return item = book
+	}else{
+		return item
+	}
+})
+this.setState({
+	booksList: booksList
+})
 ```
