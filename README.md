@@ -1,5 +1,5 @@
 # 前言
-初学vue和react,尝试一些小demo。另分别找到一个实战项目，跟着教程做下来，深入学习。
+初学vue和react,尝试一些小demo。另分别找到一个实战项目，跟着教程做下来，深入学习。  
 
 ## vue
 项目简介：外卖App商家模块(商品／评论／商家)
@@ -8,12 +8,25 @@
 
 实现功能：商品的选购 购物车中商品的删改
 
+运行方法：
+```
+npm install
+npm run start
+```
+
 ## react
 项目简介：(首页／城市页／详情页／登录页／个人中心)
 
 实现功能：收藏，购买，评论
 
-技术架构：react + react-router + react-redux + koa
+技术架构：react + react-router + react-redux + koa  
+
+运行方法：
+```
+npm install
+npm run mock
+npm run start
+```
 
 ## 虚拟DOM设计思想：
 虚拟DOM并不是真实的DOM节点，而是存在于内存之中的一种数据结构。 
@@ -22,7 +35,10 @@
 步骤一：用JS对象模拟DOM树  
 步骤二：比较两棵虚拟DOM树的差异  
 步骤三：把差异应用到真正的DOM树上
+  
 
+
+对于demo中vue和react实现的图书列表信息的增删改查，与两个综合项目，总结内容如下：
 ## vue 和 react 的异同
 同：
 1. DOM的渲染方式使用虚拟DOM(vue1采用数据驱动视图)
